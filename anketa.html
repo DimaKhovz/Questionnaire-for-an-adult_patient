@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анкета для взрослого пациента</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{background:#fff;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.15);max-width:720px;width:100%;padding:40px;position:relative}
+.progress-bar{position:absolute;top:0;left:0;height:4px;background:linear-gradient(90deg,#667eea,#764ba2);transition:width .4s;border-radius:0 2px 2px 0}
+.section{display:none;animation:fadeIn .4s}.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:1.4rem;color:#2d3748;margin-bottom:8px}
+.sub{color:#718096;font-size:.9rem;margin-bottom:20px}
+.sn{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:.8rem;font-weight:700;margin-bottom:10px}
+label{display:block;margin-bottom:5px;color:#4a5568;font-size:.9rem;font-weight:500}
+input[type=text],input[type=email],input[type=tel],input[type=number],textarea,select{width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:.9rem;transition:border-color .3s;margin-bottom:14px;font-family:inherit}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+textarea{resize:vertical;min-height:70px}
+.cg{margin-bottom:14px}.cg label{display:flex;align-items:center;padding:8px 12px;margin-bottom:4px;border-radius:8px;cursor:pointer;font-weight:400;transition:background .2s}
+.cg label:hover{background:#f7fafc}.cg input{width:16px;height:16px;margin-right:10px;accent-color:#667eea;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 28px;border:none;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .3s}
+.btn-next{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(102,126,234,.4)}
+.btn-back{background:#edf2f7;color:#4a5568;margin-right:10px}.btn-back:hover{background:#e2e8f0}
+.btn-submit{background:linear-gradient(135deg,#48bb78,#38a169);color:#fff}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(72,187,120,.4)}
+.buttons{margin-top:20px;display:flex;align-items:center}
+.note{color:#a0aec0;font-size:.82rem;font-style:italic;margin-bottom:12px}
+.fg{margin-bottom:6px}
+@media(max-width:600px){.container{padding:24px 18px;border-radius:16px}h1{font-size:1.2rem}.btn{padding:10px 20px;font-size:.85rem}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="progress-bar" id="progressBar"></div>
+<form id="anketaForm">
+<input type="hidden" name="_subject" value="Новая анкета пациента">
+
+<div class="section active" data-section="0">
+<div class="sn">✦</div>
+<h1>Анкета для взрослого пациента</h1>
+<p class="sub">для первичного глубокого гомеопатического приёма</p>
+<p style="color:#4a5568;line-height:1.7;font-size:.9rem;margin-bottom:12px">Пожалуйста, отвечайте спокойно и подробно. Для подбора лечения важны не только диагнозы, но и то, как именно проявляется Ваша проблема. Если какой-то вопрос Вам не подходит — пропустите его.</p>
+<div class="buttons"><button type="button" class="btn btn-next" onclick="go(1)">Начать →</button></div>
+</div>
+
+<div class="section" data-section="1">
+<div class="sn">1</div><h1>Общая информация</h1><p class="sub"></p>
+<div class="fg"><label>ФИО</label><input type="text" name="1_ФИО"></div>
+<div class="fg"><label>Дата рождения / возраст</label><input type="text" name="1_Дата_рождения"></div>
+<div class="fg"><label>Пол</label><select name="1_Пол"><option value="">—</option><option>Мужской</option><option>Женский</option></select></div>
+<div class="fg"><label>Телефон / e-mail</label><input type="text" name="1_Контакт"></div>
+<div class="fg"><label>Семейное положение</label><input type="text" name="1_Семья"></div>
+<div class="fg"><label>Профессия</label><input type="text" name="1_Профессия"></div>
+<div class="fg"><label>Рост / Вес</label><input type="text" name="1_Рост_Вес" placeholder="170 см / 70 кг"></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(0)">←</button><button type="button" class="btn btn-next" onclick="go(2)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="2">
+<div class="sn">2</div><h1>С чем Вы пришли</h1><p class="sub"></p>
+<div class="fg"><label>Что беспокоит больше всего сейчас?</label><textarea name="2_1_Беспокоит"></textarea></div>
+<div class="fg"><label>Что хотите улучшить в первую очередь?</label><textarea name="2_2_Улучшить"></textarea></div>
+<div class="fg"><label>Когда это началось?</label><input type="text" name="2_3_Когда"></div>
+<div class="fg"><label>Началось это:</label><div class="cg">
+<label><input type="checkbox" name="2_4[]" value="внезапно">внезапно</label>
+<label><input type="checkbox" name="2_4[]" value="постепенно">постепенно</label>
+<label><input type="checkbox" name="2_4[]" value="после события">после какого-то события</label>
+<label><input type="checkbox" name="2_4[]" value="не помню">точно не помню</label>
+</div></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(1)">←</button><button type="button" class="btn btn-next" onclick="go(3)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="3">
+<div class="sn">3</div><h1>После чего это началось</h1><p class="sub">Очень важный раздел</p>
+<div class="fg"><label>Что могло послужить причиной:</label><div class="cg">
+<label><input type="checkbox" name="3_1[]" value="стресс">сильный стресс</label>
+<label><input type="checkbox" name="3_1[]" value="испуг">испуг</label>
+<label><input type="checkbox" name="3_1[]" value="шок">шок</label>
+<label><input type="checkbox" name="3_1[]" value="плохие новости">плохие новости</label>
+<label><input type="checkbox" name="3_1[]" value="смерть близкого">смерть близкого</label>
+<label><input type="checkbox" name="3_1[]" value="разрыв отношений">разрыв отношений</label>
+<label><input type="checkbox" name="3_1[]" value="разочарование в любви">разочарование в любви</label>
+<label><input type="checkbox" name="3_1[]" value="финансы">финансовые проблемы</label>
+<label><input type="checkbox" name="3_1[]" value="конфликт">конфликт</label>
+<label><input type="checkbox" name="3_1[]" value="переутомление">переутомление</label>
+<label><input type="checkbox" name="3_1[]" value="травма">физическая травма</label>
+<label><input type="checkbox" name="3_1[]" value="операция">операция</label>
+<label><input type="checkbox" name="3_1[]" value="инфекция">инфекция</label>
+<label><input type="checkbox" name="3_1[]" value="беременность/роды">беременность или роды</label>
+<label><input type="checkbox" name="3_1[]" value="вакцинация">вакцинация</label>
+</div><input type="text" name="3_1_другое" placeholder="Другое..."></div>
+<div class="fg"><label>Опишите, что произошло:</label><textarea name="3_1_описание"></textarea></div>
+<div class="fg"><label>3.2. Связываете ли начало болезни с:</label><div class="cg">
+<label><input type="checkbox" name="3_2[]" value="горе">горем</label>
+<label><input type="checkbox" name="3_2[]" value="страх">страхом</label>
+<label><input type="checkbox" name="3_2[]" value="обида">обидой</label>
+<label><input type="checkbox" name="3_2[]" value="подавленный гнев">подавленным гневом</label>
+<label><input type="checkbox" name="3_2[]" value="длительный стресс">длительным стрессом</label>
+<label><input type="checkbox" name="3_2[]" value="потеря">потерей</label>
+<label><input type="checkbox" name="3_2[]" value="разочарование">разочарованием</label>
+<label><input type="checkbox" name="3_2[]" value="потрясение">эмоциональным потрясением</label>
+<label><input type="checkbox" name="3_2[]" value="физическое">физическим событием</label>
+</div><textarea name="3_2_комм" placeholder="Комментарий"></textarea></div>
+<div class="fg"><label>3.3. Ухудшение после подавления:</label><div class="cg">
+<label><input type="checkbox" name="3_3[]" value="слёзы">слёз</label>
+<label><input type="checkbox" name="3_3[]" value="гнев">гнева</label>
+<label><input type="checkbox" name="3_3[]" value="переживания">переживаний</label>
+<label><input type="checkbox" name="3_3[]" value="кожа">кожных высыпаний</label>
+<label><input type="checkbox" name="3_3[]" value="пот">пота</label>
+<label><input type="checkbox" name="3_3[]" value="выделения">выделений</label>
+<label><input type="checkbox" name="3_3[]" value="температура">температуры</label>
+</div><textarea name="3_3_описание" placeholder="Описание"></textarea></div>
+<div class="fg"><label>3.4. Реакция на плохие новости:</label><div class="cg">
+<label><input type="checkbox" name="3_4[]" value="цепенею">замираю, цепенею</label>
+<label><input type="checkbox" name="3_4[]" value="паника">паникую</label>
+<label><input type="checkbox" name="3_4[]" value="плачу">плачу</label>
+<label><input type="checkbox" name="3_4[]" value="раздражаюсь">раздражаюсь</label>
+<label><input type="checkbox" name="3_4[]" value="слабость">чувствую слабость</label>
+<label><input type="checkbox" name="3_4[]" value="потею">потею</label>
+<label><input type="checkbox" name="3_4[]" value="сердцебиение">сердцебиение</label>
+<label><input type="checkbox" name="3_4[]" value="тошнота">тошнота</label>
+<label><input type="checkbox" name="3_4[]" value="предобморок">предобморочное состояние</label>
+<label><input type="checkbox" name="3_4[]" value="держусь потом плохо">внешне держусь, потом плохо</label>
+</div><input type="text" name="3_4_другое" placeholder="Другое"></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(2)">←</button><button type="button" class="btn btn-next" onclick="go(4)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="4">
+<div class="sn">4</div><h1>Главная жалоба подробно</h1><p class="sub"></p>
+<div class="fg"><label>4.1. Где именно проблема?</label><input type="text" name="4_1"></div>
+<div class="fg"><label>4.2. Как ощущаете?</label><p class="note">жжение, давление, распирание, резь, колющая/тянущая боль, онемение, слабость...</p><textarea name="4_2"></textarea></div>
+<div class="fg"><label>4.3. Сила по шкале 0–10</label><input type="number" name="4_3" min="0" max="10" placeholder="5"></div>
+<div class="fg"><label>4.4. Постоянно или приступами?</label><input type="text" name="4_4"></div>
+<div class="fg"><label>4.5. Распространение / перемещение?</label><textarea name="4_5" placeholder="Отдаёт куда-то, переходит..."></textarea></div>
+<div class="fg"><label>4.6. Сопутствующие симптомы?</label><textarea name="4_6" placeholder="Слабость, потливость, дрожь, тревога..."></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(3)">←</button><button type="button" class="btn btn-next" onclick="go(5)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="5">
+<div class="sn">5</div><h1>Что ухудшает и облегчает</h1><p class="sub">Очень важно</p>
+<div class="fg"><label>5.1. Что ухудшает:</label><div class="cg">
+<label><input type="checkbox" name="5_1[]" value="утро">утро</label>
+<label><input type="checkbox" name="5_1[]" value="день">день</label>
+<label><input type="checkbox" name="5_1[]" value="вечер">вечер</label>
+<label><input type="checkbox" name="5_1[]" value="ночь">ночь</label>
+<label><input type="checkbox" name="5_1[]" value="после полуночи">после полуночи</label>
+<label><input type="checkbox" name="5_1[]" value="движение">движение</label>
+<label><input type="checkbox" name="5_1[]" value="малейшее движение">малейшее движение</label>
+<label><input type="checkbox" name="5_1[]" value="покой">покой</label>
+<label><input type="checkbox" name="5_1[]" value="физ.нагрузка">физическая нагрузка</label>
+<label><input type="checkbox" name="5_1[]" value="умств.нагрузка">умственная нагрузка</label>
+<label><input type="checkbox" name="5_1[]" value="прикосновение">прикосновение</label>
+<label><input type="checkbox" name="5_1[]" value="давление">давление</label>
+<label><input type="checkbox" name="5_1[]" value="шум">шум</label>
+<label><input type="checkbox" name="5_1[]" value="свет">свет</label>
+<label><input type="checkbox" name="5_1[]" value="холод">холод</label>
+<label><input type="checkbox" name="5_1[]" value="жара">жара</label>
+<label><input type="checkbox" name="5_1[]" value="солнце">солнце</label>
+<label><input type="checkbox" name="5_1[]" value="духота">душное помещение</label>
+<label><input type="checkbox" name="5_1[]" value="сквозняк">сквозняк</label>
+<label><input type="checkbox" name="5_1[]" value="сырость">сырость</label>
+<label><input type="checkbox" name="5_1[]" value="ветер">ветер</label>
+<label><input type="checkbox" name="5_1[]" value="перемена погоды">перемена погоды</label>
+<label><input type="checkbox" name="5_1[]" value="голод">голод</label>
+<label><input type="checkbox" name="5_1[]" value="после еды">после еды</label>
+<label><input type="checkbox" name="5_1[]" value="определённая пища">определённая пища</label>
+<label><input type="checkbox" name="5_1[]" value="стресс">стресс</label>
+<label><input type="checkbox" name="5_1[]" value="эмоции">эмоции</label>
+<label><input type="checkbox" name="5_1[]" value="одиночество">одиночество</label>
+<label><input type="checkbox" name="5_1[]" value="люди">общение / люди</label>
+</div><textarea name="5_1_подробнее" placeholder="Подробнее"></textarea></div>
+<div class="fg"><label>5.2. Что облегчает:</label><div class="cg">
+<label><input type="checkbox" name="5_2[]" value="покой">покой</label>
+<label><input type="checkbox" name="5_2[]" value="движение">движение</label>
+<label><input type="checkbox" name="5_2[]" value="постоянное движение">постоянное движение</label>
+<label><input type="checkbox" name="5_2[]" value="тепло">тепло</label>
+<label><input type="checkbox" name="5_2[]" value="холод">холод</label>
+<label><input type="checkbox" name="5_2[]" value="свежий воздух">свежий воздух</label>
+<label><input type="checkbox" name="5_2[]" value="укутывание">укутывание</label>
+<label><input type="checkbox" name="5_2[]" value="давление">давление</label>
+<label><input type="checkbox" name="5_2[]" value="смена положения">смена положения</label>
+<label><input type="checkbox" name="5_2[]" value="лежать">лежать</label>
+<label><input type="checkbox" name="5_2[]" value="сидеть">сидеть</label>
+<label><input type="checkbox" name="5_2[]" value="сон">сон</label>
+<label><input type="checkbox" name="5_2[]" value="еда">еда</label>
+<label><input type="checkbox" name="5_2[]" value="питьё">питьё</label>
+<label><input type="checkbox" name="5_2[]" value="одиночество">одиночество</label>
+<label><input type="checkbox" name="5_2[]" value="присутствие человека">присутствие другого человека</label>
+<label><input type="checkbox" name="5_2[]" value="плач">плач</label>
+</div><textarea name="5_2_подробнее" placeholder="Подробнее"></textarea></div>
+<div class="fg"><label>5.3. Как переносите движение?</label><div class="cg">
+<label><input type="radio" name="5_3" value="хуже от движения">мне хуже от движения</label>
+<label><input type="radio" name="5_3" value="хуже от малейшего">хуже от малейшего движения</label>
+<label><input type="radio" name="5_3" value="лучше от движения">лучше от движения</label>
+<label><input type="radio" name="5_3" value="нужно двигаться">нужно двигаться, чтобы стало легче</label>
+<label><input type="radio" name="5_3" value="по-разному">бывает по-разному</label>
+</div></div>
+<div class="fg"><label>5.4. Как переносите прикосновение?</label><div class="cg">
+<label><input type="radio" name="5_4" value="спокойно">спокойно</label>
+<label><input type="radio" name="5_4" value="неприятно">неприятно</label>
+<label><input type="radio" name="5_4" value="болезненно">болезненно</label>
+<label><input type="radio" name="5_4" value="не хочу">не хочу, чтобы трогали</label>
+<label><input type="radio" name="5_4" value="боюсь из-за боли">боюсь прикосновения из-за боли</label>
+</div></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(4)">←</button><button type="button" class="btn btn-next" onclick="go(6)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="6">
+<div class="sn">6</div><h1>Какой Вы человек</h1><p class="sub"></p>
+<div class="fg"><label>6.1. Как бы Вы описали себя?</label><textarea name="6_1"></textarea></div>
+<div class="fg"><label>6.2. Какое состояние ближе:</label><div class="cg">
+<label><input type="checkbox" name="6_2[]" value="спокойствие">спокойствие</label>
+<label><input type="checkbox" name="6_2[]" value="тревожность">тревожность</label>
+<label><input type="checkbox" name="6_2[]" value="напряжение">внутреннее напряжение</label>
+<label><input type="checkbox" name="6_2[]" value="раздражительность">раздражительность</label>
+<label><input type="checkbox" name="6_2[]" value="чувствительность">чувствительность</label>
+<label><input type="checkbox" name="6_2[]" value="обидчивость">обидчивость</label>
+<label><input type="checkbox" name="6_2[]" value="замкнутость">замкнутость</label>
+<label><input type="checkbox" name="6_2[]" value="общительность">общительность</label>
+<label><input type="checkbox" name="6_2[]" value="плаксивость">плаксивость</label>
+<label><input type="checkbox" name="6_2[]" value="контроль">желание всё контролировать</label>
+</div></div>
+<div class="fg"><label>6.3. Реакция на стресс/конфликт:</label><div class="cg">
+<label><input type="checkbox" name="6_3[]" value="побыть одному">хочу побыть один(а)</label>
+<label><input type="checkbox" name="6_3[]" value="поддержка">нужна поддержка</label>
+<label><input type="checkbox" name="6_3[]" value="замыкаюсь">замыкаюсь</label>
+<label><input type="checkbox" name="6_3[]" value="плачу">плачу</label>
+<label><input type="checkbox" name="6_3[]" value="раздражаюсь">раздражаюсь</label>
+<label><input type="checkbox" name="6_3[]" value="не могу успокоиться">не могу успокоиться</label>
+<label><input type="checkbox" name="6_3[]" value="суечусь">суечусь</label>
+<label><input type="checkbox" name="6_3[]" value="физ.симптомы">появляются физические симптомы</label>
+</div><textarea name="6_3_подробнее" placeholder="Подробнее"></textarea></div>
+<div class="fg"><label>6.4. Важность мнения окружающих:</label><div class="cg">
+<label><input type="checkbox" name="6_4[]" value="не важно">почти не важно</label>
+<label><input type="checkbox" name="6_4[]" value="важно">важно</label>
+<label><input type="checkbox" name="6_4[]" value="очень важно">очень важно</label>
+<label><input type="checkbox" name="6_4[]" value="критика">тяжело переношу критику</label>
+<label><input type="checkbox" name="6_4[]" value="не замечают">больно, если не замечают</label>
+<label><input type="checkbox" name="6_4[]" value="одобрение">важно одобрение</label>
+<label><input type="checkbox" name="6_4[]" value="признание">важно признание</label>
+</div></div>
+<div class="fg"><label>6.5. Что особенно задевает:</label><div class="cg">
+<label><input type="checkbox" name="6_5[]" value="несправедливость">несправедливость</label>
+<label><input type="checkbox" name="6_5[]" value="грубость">грубость</label>
+<label><input type="checkbox" name="6_5[]" value="критика">критика</label>
+<label><input type="checkbox" name="6_5[]" value="игнорирование">игнорирование</label>
+<label><input type="checkbox" name="6_5[]" value="унижение">унижение</label>
+<label><input type="checkbox" name="6_5[]" value="отвержение">отвержение</label>
+<label><input type="checkbox" name="6_5[]" value="одиночество">одиночество</label>
+<label><input type="checkbox" name="6_5[]" value="потеря контроля">потеря контроля</label>
+<label><input type="checkbox" name="6_5[]" value="измена">измена</label>
+<label><input type="checkbox" name="6_5[]" value="давление/спешка">давление / спешка</label>
+</div></div>
+<div class="fg"><label>6.6. Внутренний конфликт?</label><p class="note">Хочется одного, а «надо» другое; внешне уверенны, а внутри уязвимы; желание доказать значимость; чувство неполноценности; раздвоенность</p><textarea name="6_6"></textarea></div>
+<div class="fg"><label>6.7. Отношение к порядку и контролю:</label><div class="cg">
+<label><input type="checkbox" name="6_7[]" value="люблю порядок спокойно">люблю порядок, спокойно к беспорядку</label>
+<label><input type="checkbox" name="6_7[]" value="раздражаюсь">раздражаюсь, если порядок нарушен</label>
+<label><input type="checkbox" name="6_7[]" value="контроль">важно, чтобы всё под контролем</label>
+<label><input type="checkbox" name="6_7[]" value="хаос">тяжело переношу хаос</label>
+<label><input type="checkbox" name="6_7[]" value="мелочи">замечаю мелкие нарушения</label>
+<label><input type="checkbox" name="6_7[]" value="неважно">это для меня неважно</label>
+</div></div>
+<div class="
+buttons"><button type="button" class="btn btn-back" onclick="go(5)">←</button><button type="button" class="btn btn-next" onclick="go(7)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="7">
+<div class="sn">7</div><h1>Страхи и тревога</h1><p class="sub"></p>
+<div class="fg"><label>7.1. Выраженные страхи:</label><div class="cg">
+<label><input type="checkbox" name="7_1[]" value="болезнь">болезнь</label>
+<label><input type="checkbox" name="7_1[]" value="рак">рак или тяжёлая болезнь</label>
+<label><input type="checkbox" name="7_1[]" value="смерть">смерть</label>
+<label><input type="checkbox" name="7_1[]" value="внезапная смерть">внезапная смерть</label>
+<label><input type="checkbox" name="7_1[]" value="темнота">темнота</label>
+<label><input type="checkbox" name="7_1[]" value="одиночество">одиночество</label>
+<label><input type="checkbox" name="7_1[]" value="животные">собаки / животные</label>
+<label><input type="checkbox" name="7_1[]" value="закрытые пространства">закрытые пространства</label>
+<label><input type="checkbox" name="7_1[]" value="толпа">толпа</label>
+<label><input type="checkbox" name="7_1[]" value="бедность">бедность</label>
+<label><input type="checkbox" name="7_1[]" value="будущее">будущее</label>
+<label><input type="checkbox" name="7_1[]" value="за сердце">за сердце</label>
+<label><input type="checkbox" name="7_1[]" value="за близких">за близких</label>
+<label><input type="checkbox" name="7_1[]" value="сойти с ума">сойти с ума</label>
+<label><input type="checkbox" name="7_1[]" value="мистические">мистические страхи</label>
+</div><input type="text" name="7_1_другое" placeholder="Другое"></div>
+<div class="fg"><label>7.2. Бывает ли:</label><div class="cg">
+<label><input type="checkbox" name="7_2[]" value="беспричинная тревога">беспричинная тревога</label>
+<label><input type="checkbox" name="7_2[]" value="надвигающаяся беда">ощущение надвигающейся беды</label>
+<label><input type="checkbox" name="7_2[]" value="ночная паника">ночное пробуждение с паникой</label>
+<label><input type="checkbox" name="7_2[]" value="страх умереть">страх умереть</label>
+<label><input type="checkbox" name="7_2[]" value="страх за сердце">страх за сердце</label>
+<label><input type="checkbox" name="7_2[]" value="тревога за здоровье">тревога за здоровье</label>
+<label><input type="checkbox" name="7_2[]" value="тревога за близких">тревога за близких</label>
+</div><textarea name="7_2_комм" placeholder="Комментарий"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(6)">←</button><button type="button" class="btn btn-next" onclick="go(8)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="8">
+<div class="sn">8</div><h1>Общие особенности организма</h1><p class="sub"></p>
+<div class="fg"><label>8.1. Вы скорее:</label><div class="cg">
+<label><input type="checkbox" name="8_1[]" value="зябкий">зябкий человек</label>
+<label><input type="checkbox" name="8_1[]" value="жаркий">жаркий человек</label>
+<label><input type="checkbox" name="8_1[]" value="мёрзну">легко мёрзну</label>
+<label><input type="checkbox" name="8_1[]" value="перегреваюсь">легко перегреваюсь</label>
+<label><input type="checkbox" name="8_1[]" value="свежий воздух">люблю свежий воздух</label>
+<label><input type="checkbox" name="8_1[]" value="сквозняки">не переношу сквозняки</label>
+</div></div>
+<div class="fg"><label>8.2. Что переносите хуже всего:</label><div class="cg">
+<label><input type="checkbox" name="8_2[]" value="холод">холод</label>
+<label><input type="checkbox" name="8_2[]" value="жару">жару</label>
+<label><input type="checkbox" name="8_2[]" value="солнце">солнце</label>
+<label><input type="checkbox" name="8_2[]" value="духота">душные помещения</label>
+<label><input type="checkbox" name="8_2[]" value="влажность">влажность</label>
+<label><input type="checkbox" name="8_2[]" value="ветер">ветер</label>
+<label><input type="checkbox" name="8_2[]" value="перемена погоды">перемена погоды</label>
+<label><input type="checkbox" name="8_2[]" value="перепады температуры">резкие перепады температуры</label>
+</div><textarea name="8_2_комм" placeholder="Комментарий"></textarea></div>
+<div class="fg"><label>8.3. Жажда:</label><div class="cg">
+<label><input type="radio" name="8_3" value="мало">пью мало</label>
+<label><input type="radio" name="8_3" value="умеренно">пью умеренно</label>
+<label><input type="radio" name="8_3" value="много">пью много</label>
+<label><input type="radio" name="8_3" value="часто понемногу">часто и понемногу</label>
+<label><input type="radio" name="8_3" value="редко много">редко, но большими порциями</label>
+</div></div>
+<div class="fg"><label>8.4. Предпочитаете:</label><div class="cg">
+<label><input type="radio" name="8_4" value="холодные">холодные напитки</label>
+<label><input type="radio" name="8_4" value="тёплые">тёплые напитки</label>
+<label><input type="radio" name="8_4" value="горячие">горячие напитки</label>
+</div></div>
+<div class="fg"><label>8.5. Меняется ли жажда во время болезни?</label><input type="text" name="8_5"></div>
+<div class="fg"><label>8.6. Аппетит:</label><div class="cg">
+<label><input type="checkbox" name="8_6[]" value="нормальный">нормальный</label>
+<label><input type="checkbox" name="8_6[]" value="снижен">снижен</label>
+<label><input type="checkbox" name="8_6[]" value="повышен">повышен</label>
+<label><input type="checkbox" name="8_6[]" value="плохо без еды">плохо переношу голод</label>
+<label><input type="checkbox" name="8_6[]" value="пропуск еды">если пропускаю еду — хуже</label>
+<label><input type="checkbox" name="8_6[]" value="быстро наедаюсь">быстро наедаюсь</label>
+<label><input type="checkbox" name="8_6[]" value="ночной голод">бывает ночной голод</label>
+</div></div>
+<div class="fg"><label>8.7. К какой еде тянет?</label><textarea name="8_7"></textarea></div>
+<div class="fg"><label>8.8. От какой еды хуже?</label><textarea name="8_8"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(7)">←</button><button type="button" class="btn btn-next" onclick="go(9)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="9">
+<div class="sn">9</div><h1>Сон</h1><p class="sub"></p>
+<div class="fg"><label>9.1. Как Вы спите:</label><div class="cg">
+<label><input type="checkbox" name="9_1[]" value="легко засыпаю">засыпаю легко</label>
+<label><input type="checkbox" name="9_1[]" value="трудно засыпаю">засыпаю трудно</label>
+<label><input type="checkbox" name="9_1[]" value="поверхностный">сон поверхностный</label>
+<label><input type="checkbox" name="9_1[]" value="просыпаюсь">часто просыпаюсь</label>
+<label><input type="checkbox" name="9_1[]" value="рано">просыпаюсь слишком рано</label>
+<label><input type="checkbox" name="9_1[]" value="нет отдыха">после сна не чувствую отдыха</label>
+</div></div>
+<div class="fg"><label>9.2. Особенности во сне:</label><div class="cg">
+<label><input type="checkbox" name="9_2[]" value="разговоры">разговоры во сне</label>
+<label><input type="checkbox" name="9_2[]" value="вскрикивания">вскрикивания</label>
+<label><input type="checkbox" name="9_2[]" value="резкие движения">резкие движения</label>
+<label><input type="checkbox" name="9_2[]" value="вздрагивания">вздрагивания</label>
+<label><input type="checkbox" name="9_2[]" value="потливость">потливость</label>
+<label><input type="checkbox" name="9_2[]" value="кошмары">кошмары</label>
+<label><input type="checkbox" name="9_2[]" value="удушье">удушье</label>
+<label><input type="checkbox" name="9_2[]" value="скрежет зубами">скрежет зубами</label>
+</div><textarea name="9_2_комм" placeholder="Комментарий"></textarea></div>
+<div class="fg"><label>9.3. Повторяющиеся сны или темы?</label><p class="note">Преследование, падение, смерть, вода, огонь, опоздание...</p><textarea name="9_3"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(8)">←</button><button type="button" class="btn btn-next" onclick="go(10)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="10">
+<div class="sn">10</div><h1>Необычные или странные симптомы</h1><p class="sub">Очень важный раздел</p>
+<p class="note">Ощущение что сердце остановится; «пробка» в теле; мозг «отключается»; внутренние вибрации; любые странные ощущения</p>
+<div class="fg"><label>Опишите подробно:</label><textarea name="10_описание" style="min-height:120px"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(9)">←</button><button type="button" class="btn btn-next" onclick="go(11)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="11">
+<div class="sn">11</div><h1>Другие жалобы и симптомы</h1><p class="sub">Что беспокоит сейчас или бывало раньше</p>
+<div class="fg"><label><b>Голова и нервная система:</b></label><div class="cg">
+<label><input type="checkbox" name="11_голова[]" value="головные боли">головные боли</label>
+<label><input type="checkbox" name="11_голова[]" value="головокружение">головокружение</label>
+<label><input type="checkbox" name="11_голова[]" value="мигрени">мигрени</label>
+<label><input type="checkbox" name="11_голова[]" value="обмороки">обмороки</label>
+<label><input type="checkbox" name="11_голова[]" value="онемение">онемение</label>
+<label><input type="checkbox" name="11_голова[]" value="судороги">судороги</label>
+<label><input type="checkbox" name="11_голова[]" value="память">ухудшение памяти</label>
+</div></div>
+<div class="fg"><label><b>Глаза, уши, нос, горло:</b></label><div class="cg">
+<label><input type="checkbox" name="11_лор[]" value="сухость глаз">сухость глаз</label>
+<label><input type="checkbox" name="11_лор[]" value="слезотечение">слезотечение</label>
+<label><input type="checkbox" name="11_лор[]" value="шум в ушах">шум в ушах</label>
+<label><input type="checkbox" name="11_лор[]" value="снижение слуха">снижение слуха</label>
+<label><input type="checkbox" name="11_лор[]" value="насморк">частый насморк</label>
+<label><input type="checkbox" name="11_лор[]" value="синуситы">синуситы</label>
+<label><input type="checkbox" name="11_лор[]" value="горло">боли в горле</label>
+</div></div>
+<div class="fg"><label><b>Дыхание:</b></label><div class="cg">
+<label><input type="checkbox" name="11_дых[]" value="кашель">кашель</label>
+<label><input type="checkbox" name="11_дых[]" value="одышка">одышка</label>
+<label><input type="checkbox" name="11_дых[]" value="бронхиты">бронхиты</label>
+<label><input type="checkbox" name="11_дых[]" value="астма">астма</label>
+<label><input type="checkbox" name="11_дых[]" value="нехватка воздуха">нехватка воздуха</label>
+</div></div>
+<div class="fg"><label><b>Сердце и сосуды:</b></label><div class="cg">
+<label><input type="checkbox" name="11_серд[]" value="сердцебиение">сердцебиение</label>
+<label><input type="checkbox" name="11_серд[]" value="перебои">перебои</label>
+<label><input type="checkbox" name="11_серд[]" value="боли в сердце">боли в сердце</label>
+<label><input type="checkbox" name="11_серд[]" value="повышенное АД">повышенное давление</label>
+<label><input type="checkbox" name="11_серд[]" value="пониженное АД">пониженное давление</label>
+<label><input type="checkbox" name="11_серд[]" value="отёки">отёки</label>
+</div></div>
+<div class="fg"><label><b>Желудок и кишечник:</b></label><div class="cg">
+<label><input type="checkbox" name="11_жкт[]" value="изжога">изжога</label>
+<label><input type="checkbox" name="11_жкт[]" value="тошнота">тошнота</label>
+<label><input type="checkbox" name="11_жкт[]" value="рвота">рвота</label>
+<label><input type="checkbox" name="11_жкт[]" value="вздутие">вздутие</label>
+<label><input type="checkbox" name="11_жкт[]" value="боли в животе">боли в животе</label>
+<label><input type="checkbox" name="11_жкт[]" value="запор">запор</label>
+<label><input type="checkbox" name="11_жкт[]" value="понос">понос</label>
+<label><input type="checkbox" name="11_жкт[]" value="чередование">чередование запора и поноса</label>
+</div></div>
+<div class="fg"><label><b>Мочеполовая система:</b></label><div class="cg">
+<label><input type="checkbox" name="11_моч[]" value="частое мочеиспускание">частое мочеиспускание</label>
+<label><input type="checkbox" name="11_моч[]" value="жжение">жжение</label>
+<label><input type="checkbox" name="11_моч[]" value="циститы">циститы</label>
+<label><input type="checkbox" name="11_моч[]" value="слабая струя">слабая струя</label>
+<label><input type="checkbox" name="11_моч[]" value="снижение либидо">снижение либидо</label>
+<label><input type="checkbox" name="11_моч[]" value="боли">боли</label>
+<label><input type="checkbox" name="11_моч[]" value="выделения">выделения</label>
+</div></div>
+<div class="fg"><label><b>Кожа:</b></label><div class="cg">
+<label><input type="checkbox" name="11_кожа[]" value="сыпь">сыпь</label>
+<label><input type="checkbox" name="11_кожа[]" value="зуд">зуд</label>
+<label><input type="checkbox" name="11_кожа[]" value="сухость">сухость</label>
+<label><input type="checkbox" name="11_кожа[]" value="трещины">трещины</label>
+<label><input type="checkbox" name="11_кожа[]" value="экзема">экзема</label>
+<label><input type="checkbox" name="11_кожа[]" value="потливость">потливость</label>
+<label><input type="checkbox" name="11_кожа[]" value="грибок">грибок</label>
+<label><input type="checkbox" name="11_кожа[]" value="бородавки">бородавки</label>
+</div></div>
+<div class="fg"><label><b>Суставы, мышцы, спина:</b></label><div class="cg">
+<label><input type="checkbox" name="11_суст[]" value="спина">боли в спине</label>
+<label><input type="checkbox" name="11_суст[]" value="суставы">боли в суставах</label>
+<label><input type="checkbox" name="11_суст[]" value="скованность">скованность</label>
+<label><input type="checkbox" name="11_суст[]" value="судороги">судороги</label>
+<label><input type="checkbox" name="11_суст[]" value="слабость">слабость в мышцах</label>
+</div></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(10)">←</button><button type="button" class="btn btn-next" onclick="go(12)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="12">
+<div class="sn">12</div><h1>Стул, мочеиспускание, пот</h1><p class="sub"></p>
+<div class="fg"><label>12.1. Стул:</label><div class="cg">
+<label><input type="checkbox" name="12_1[]" value="ежедневный">ежедневный</label>
+<label><input type="checkbox" name="12_1[]" value="нерегулярный">нерегулярный</label>
+<label><input type="checkbox" name="12_1[]" value="запор">запор</label>
+<label><input type="checkbox" name="12_1[]" value="понос">понос</label>
+<label><input type="checkbox" name="12_1[]" value="чередование">чередование</label>
+<label><input type="checkbox" name="12_1[]" value="неполное опорожнение">чувство неполного опорожнения</label>
+<label><input type="checkbox" name="12_1[]" value="слизь">слизь</label>
+<label><input type="checkbox" name="12_1[]" value="кровь">кровь</label>
+</div><textarea name="12_1_комм" placeholder="Комментарий"></textarea></div>
+<div class="fg"><label>12.2. Мочеиспускание:</label><div class="cg">
+<label><input type="checkbox" name="12_2[]" value="обычное">обычное</label>
+<label><input type="checkbox" name="12_2[]" value="частое">частое</label>
+<label><input type="checkbox" name="12_2[]" value="редкое">редкое</label>
+<label><input type="checkbox" name="12_2[]" value="ночью">ночью встаю</label>
+<label><input type="checkbox" name="12_2[]" value="жжение">жжение</label>
+<label><input type="checkbox" name="12_2[]" value="срочность">срочность</label>
+<label><input type="checkbox" name="12_2[]" value="слабая струя">слабая струя</label>
+<label><input type="checkbox" name="12_2[]" value="недержание">недержание</label>
+</div><textarea name="12_2_комм" placeholder="Комментарий"></textarea></div>
+<div class="fg"><label>12.3. Пот:</label><div class="cg">
+<label><input type="checkbox" name="12_3[]" value="повышена">потливость повышена</label>
+<label><input type="checkbox" name="12_3[]" value="снижена">потливость снижена</label>
+<label><input type="checkbox" name="12_3[]" value="ночью">больше ночью</label>
+<label><input type="checkbox" name="12_3[]" value="при волнении">при волнении</label>
+<label><input type="checkbox" name="12_3[]" value="во сне">во сне</label>
+<label><input type="checkbox" name="12_3[]" value="при нагрузке">при нагрузке</label>
+</div><label>Где потеете больше?</label><input type="text" name="12_3_где"></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(11)">←</button><button type="button" class="btn btn-next" onclick="go(13)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="13">
+<div class="sn">13</div><h1>Энергия и сопротивляемость</h1><p class="sub"></p>
+<div class="fg"><label>13.1. Уровень энергии (0–10):</label><input type="number" name="13_1" min="0" max="10"></div>
+<div class="fg"><label>13.2. Когда лучше?</label><input type="text" name="13_2"></div>
+<div class="fg"><label>13.3. Когда хуже?</label><input type="text" name="13_3"></div>
+<div class="fg"><label>13.4. Как часто болеете:</label><div class="cg">
+<label><input type="radio" name="13_4" value="редко">редко</label>
+<label><input type="radio" name="13_4" value="несколько раз в год">несколько раз в год</label>
+<label><input type="radio" name="13_4" value="часто">часто</label>
+<label><input type="radio" name="13_4" value="почти не болею">почти не болею</label>
+</div></div>
+<div class="fg"><label>13.5. Бывает ли высокая температура:</label><div class="cg">
+<label><input type="radio" name="13_5" value="часто">да, часто</label>
+<label><input type="radio" name="13_5" value="редко">редко</label>
+<label><input type="radio" name="13_5" value="почти никогда">почти никогда</label>
+</div></div>
+<div class="fg"><label>13.6. Как переносите алкоголь:</label><div class="cg">
+<label><input type="checkbox" name="13_6[]" value="нормально">нормально</label>
+<label><input type="checkbox" name="13_6[]" value="быстро пьянею">быстро пьянею</label>
+<label><input type="checkbox" name="13_6[]" value="плохо от малого">от малого количества плохо</label>
+<label><input type="checkbox" name="13_6[]" value="раздражительность">становлюсь раздражительным</label>
+<label><input type="checkbox" name="13_6[]" value="ухудшение">самочувствие ухудшается</label>
+<label><input type="checkbox" name="13_6[]" value="не употребляю">не употребляю</label>
+</div></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(12)">←</button><button type="button" class="btn btn-next" onclick="go(14)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="14">
+<div class="sn">14</div><h1>Чем Вы болели раньше</h1><p class="sub"></p>
+<div class="fg"><label>14.1. Серьёзные болезни:</label><textarea name="14_1"></textarea></div>
+<div class="fg"><label>14.2. Операции, травмы, госпитализации:</label><textarea name="14_2"></textarea></div>
+<div class="fg"><label>14.3. Реакции на прививки:</label><textarea name="14_3"></textarea></div>
+<div class="fg"><label>14.4. Лекарства сейчас или длительно раньше:</label><p class="note">Антибиотики, гормоны, антидепрессанты, обезболивающие, снотворные, контрацептивы...</p><textarea name="14_4"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(13)">←</button><button type="button" class="btn btn-next" onclick="go(15)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="15">
+<div class="sn">15</div><h1>Предыдущее лечение и подавление</h1><p class="sub"></p>
+<div class="fg"><div class="cg">
+<label><input type="checkbox" name="15[]" value="антибиотики">частое лечение антибиотиками</label>
+<label><input type="checkbox" name="15[]" value="гормоны">длительный приём гормонов</label>
+<label><input type="checkbox" name="15[]" value="кожа мази">кожные высыпания исчезли после мазей</label>
+<label><input type="checkbox" name="15[]" value="сбивание температуры">частое сбивание температуры</label>
+<label><input type="checkbox" name="15[]" value="подавление выделений">подавление выделений</label>
+<label><input type="checkbox" name="15[]" value="глубже">после лечения одного — появились более глубокие симптомы</label>
+</div><textarea name="15_описание" placeholder="Опишите подробнее"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(14)">←</button><button type="button" class="btn btn-next" onclick="go(16)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="16">
+<div class="sn">16</div><h1>Важные события в жизни</h1><p class="sub">После которых менялось здоровье</p>
+<div class="fg"><textarea name="16" style="min-height:120px" placeholder="Перечислите важные события..."></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(15)">←</button><button type="button" class="btn btn-next" onclick="go(17)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="17">
+<div class="sn">17</div><h1>Семейный анамнез</h1><p class="sub">Болезни близких родственников</p>
+<div class="fg"><div class="cg">
+<label><input type="checkbox" name="17[]" value="онкология">онкология</label>
+<label><input type="checkbox" name="17[]" value="диабет">диабет</label>
+<label><input type="checkbox" name="17[]" value="гипертония">гипертония</label>
+<label><input type="checkbox" name="17[]" value="инфаркт/инсульт">инфаркт / инсульт</label>
+<label><input type="checkbox" name="17[]" value="астма">астма</label>
+<label><input type="checkbox" name="17[]" value="аллергии">аллергии</label>
+<label><input type="checkbox" name="17[]" value="депрессия">депрессия</label>
+<label><input type="checkbox" name="17[]" value="психические">психические заболевания</label>
+<label><input type="checkbox" name="17[]" value="зависимости">зависимости</label>
+<label><input type="checkbox" name="17[]" value="кожные">кожные заболевания</label>
+<label><input type="checkbox" name="17[]" value="аутоиммунные">аутоиммунные болезни</label>
+</div><label>У кого именно / другое:</label><textarea name="17_комм"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(16)">←</button><button type="button" class="btn btn-next" onclick="go(18)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="18">
+<div class="sn">18</div><h1>Дополнительно для женщин</h1><p class="sub">Если не относится — пропустите</p>
+<div class="fg"><label>Возраст начала менструаций:</label><input type="text" name="18_начало"></div>
+<div class="fg"><label>Цикл:</label><div class="cg">
+<label><input type="radio" name="18_цикл" value="регулярный">регулярный</label>
+<label><input type="radio" name="18_цикл" value="нерегулярный">нерегулярный</label>
+</div></div>
+<div class="fg"><label>Менструации:</label><div class="cg">
+<label><input type="checkbox" name="18_менс[]" value="болезненные">болезненные</label>
+<label><input type="checkbox" name="18_менс[]" value="обильные">обильные</label>
+<label><input type="checkbox" name="18_менс[]" value="скудные">скудные</label>
+<label><input type="checkbox" name="18_менс[]" value="со сгустками">со сгустками</label>
+<label><input type="checkbox" name="18_менс[]" value="ухудшение настроения">ухудшение настроения</label>
+<label><input type="checkbox" name="18_менс[]" value="отёки">отёки</label>
+<label><input type="checkbox" name="18_менс[]" value="головная боль">головная боль</label>
+</div></div>
+<div class="fg"><label>Беременности / роды / выкидыши / аборты:</label><textarea name="18_берем"></textarea></div>
+<div class="fg"><label>Менопауза / климакс и особенности:</label><textarea name="18_менопауза"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(17)">←</button><button type="button" class="btn btn-next" onclick="go(19)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="19">
+<div class="sn">19</div><h1>Дополнительно для мужчин</h1><p class="sub">Если не относится — пропустите</p>
+<div class="fg"><label>Либидо:</label><div class="cg">
+<label><input type="radio" name="19_либидо" value="снижено">снижено</label>
+<label><input type="radio" name="19_либидо" value="нормальное">нормальное</label>
+<label><input type="radio" name="19_либидо" value="повышено">повышено</label>
+</div></div>
+<div class="fg"><label>Были ли:</label><div class="cg">
+<label><input type="checkbox" name="19[]" value="простатит">простатит</label>
+<label><input type="checkbox" name="19[]" value="проблемы с мочеиспусканием">проблемы с мочеиспусканием</label>
+<label><input type="checkbox" name="19[]" value="боли">боли</label>
+<label><input type="checkbox" name="19[]" value="выделения">выделения</label>
+<label><input type="checkbox" name="19[]" value="снижение потенции">снижение потенции</label>
+</div><textarea name="19_комм" placeholder="Комментарий"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(18)">←</button><button type="button" class="btn btn-next" onclick="go(20)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="20">
+<div class="sn">20</div><h1>Образ жизни</h1><p class="sub"></p>
+<div class="fg"><label>Работа:</label><div class="cg">
+<label><input type="checkbox" name="20_работа[]" value="сидячая">сидячая</label>
+<label><input type="checkbox" name="20_работа[]" value="физическая">физическая</label>
+<label><input type="checkbox" name="20_работа[]" value="сменная">сменная</label>
+<label><input type="checkbox" name="20_работа[]" value="ночная">ночная</label>
+<label><input type="checkbox" name="20_работа[]" value="стрессовая">напряжённая / стрессовая</label>
+</div></div>
+<div class="fg"><label>Физическая активность:</label><input type="text" name="20_активность"></div>
+<div class="fg"><label>Курение:</label><input type="text" name="20_курение" placeholder="Нет / да, сколько"></div>
+<div class="fg"><label>Алкоголь:</label><input type="text" name="20_алкоголь" placeholder="Нет / редко / умеренно"></div>
+<div class="fg"><label>Кофе / энергетики:</label><input type="text" name="20_кофе"></div>
+<div class="fg"><label>Питание (кратко):</label><textarea name="20_питание"></textarea></div>
+<div class="fg"><label>Сколько часов спите обычно:</label><input type="text" name="20_сон"></div>
+<div class="fg"><label>Есть ли время на отдых и восстановление?</label><input type="text" name="20_отдых"></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(19)">←</button><button type="button" class="btn btn-next" onclick="go(21)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="21">
+<div class="sn">21</div><h1>Самое важное о себе</h1><p class="sub"></p>
+<div class="fg"><label>Что Вы считаете самым необычным, важным или характерным в своём состоянии, характере или болезни?</label><textarea name="21" style="min-height:120px"></textarea></div>
+<div class="buttons"><button type="button" class="btn btn-back" onclick="go(20)">←</button><button type="button" class="btn btn-next" onclick="go(22)">Далее →</button></div>
+</div>
+
+<div class="section" data-section="22">
+<div class="sn">22</div><h1>Дополнительные комментарии</h1><p class="sub">Всё, что считаете важным, но не вошло в анкету</p>
+<div class="fg"><textarea name="22" style="min-height:140px" placeholder="Напишите здесь..."></textarea></div>
+<div class="buttons">
+<button type="button" class="btn btn-back" onclick="go(21)">←</button>
+<button type="submit" class="btn btn-submit">Отправить анкету ✓</button>
+</div>
+</div>
+
+</form>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.section');
+const totalSections = sections.length - 1;
+let current = 0;
+
+function go(n) {
+    sections[current].classList.remove('active');
+    current = n;
+    sections[current].classList.add('active');
+    document.getElementById('progressBar').style.width = (current / totalSections * 100) + '%';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+const Q = {
+    "1_ФИО": "ФИО",
+    "1_Дата_рождения": "Дата рождения / возраст",
+    "1_Пол": "Пол",
+    "1_Контакт": "Телефон / e-mail",
+    "1_Семья": "Семейное положение",
+    "1_Профессия": "Профессия",
+    "1_Рост_Вес": "Рост / Вес",
+    "2_1_Беспокоит": "Что беспокоит больше всего сейчас?",
+    "2_2_Улучшить": "Что хотите улучшить в первую очередь?",
+    "2_3_Когда": "Когда это началось?",
+    "2_4[]": "Началось это:",
+    "3_1[]": "Что могло послужить причиной:",
+    "3_1_другое": "Причина (другое)",
+    "3_1_описание": "Опишите, что произошло:",
+    "3_2[]": "Связываете ли начало болезни с:",
+    "3_2_комм": "Связь с эмоцией — комментарий",
+    "3_3[]": "Ухудшение после подавления:",
+    "3_3_описание": "Подавление — описание",
+    "3_4[]": "Реакция на плохие новости:",
+    "3_4_другое": "Реакция на новости (другое)",
+    "4_1": "Где именно проблема?",
+    "4_2": "Как ощущаете? (жжение, давление, резь, тянущая боль...)",
+    "4_3": "Сила по шкале 0-10",
+    "4_4": "Постоянно или приступами?",
+    "4_5": "Распространение / перемещение?",
+    "4_6": "Сопутствующие симптомы?",
+    "5_1[]": "Что ухудшает:",
+    "5_1_подробнее": "Что ухудшает — подробнее",
+    "5_2[]": "Что облегчает:",
+    "5_2_подробнее": "Что облегчает — подробнее",
+    "5_3": "Как переносите движение?",
+    "5_4": "Как переносите прикосновение?",
+    "6_1": "Как бы Вы описали себя?",
+    "6_2[]": "Какое состояние ближе:",
+    "6_3[]": "Реакция на стресс/конфликт:",
+    "6_3_подробнее": "Реакция на стресс — подробнее",
+    "6_4[]": "Важность мнения окружающих:",
+    "6_5[]": "Что особенно задевает:",
+    "6_6": "Внутренний конфликт?",
+    "6_7[]": "Отношение к порядку и контролю:",
+    "7_1[]": "Выраженные страхи:",
+    "7_1_другое": "Страхи (другое)",
+    "7_2[]": "Бывает ли (тревога, паника):",
+    "7_2_комм": "Тревога — комментарий",
+    "8_1[]": "Вы скорее (зябкий/жаркий):",
+    "8_2[]": "Что переносите хуже всего:",
+    "8_2_комм": "Переносимость — комментарий",
+    "8_3": "Жажда:",
+    "8_4": "Предпочитаете напитки:",
+    "8_5": "Меняется ли жажда во время болезни?",
+    "8_6[]": "Аппетит:",
+    "8_7": "К какой еде тянет?",
+    "8_8": "От какой еды хуже?",
+    "9_1[]": "Как Вы спите:",
+    "9_2[]": "Особенности во сне:",
+    "9_2_комм": "Сон — комментарий",
+    "9_3": "Повторяющиеся сны или темы?",
+    "10_описание": "Необычные или странные симптомы:",
+    "11_голова[]": "Голова и нервная система:",
+    "11_лор[]": "Глаза, уши, нос, горло:",
+    "11_дых[]": "Дыхание:",
+    "11_серд[]": "Сердце и сосуды:",
+    "11_жкт[]": "Желудок и кишечник:",
+    "11_моч[]": "Мочеполовая система:",
+    "11_кожа[]": "Кожа:",
+    "11_суст[]": "Суставы, мышцы, спина:",
+    "12_1[]": "Стул:",
+    "12_1_комм": "Стул — комментарий",
+    "12_2[]": "Мочеиспускание:",
+    "12_2_комм": "Мочеиспускание — комментарий",
+    "12_3[]": "Пот:",
+    "12_3_где": "Где потеете больше?",
+    "13_1": "Уровень энергии (0-10):",
+    "13_2": "Когда энергия лучше?",
+    "13_3": "Когда энергия хуже?",
+    "13_4": "Как часто болеете:",
+    "13_5": "Бывает ли высокая температура:",
+    "13_6[]": "Как переносите алкоголь:",
+    "14_1": "Серьёзные болезни:",
+    "14_2": "Операции, травмы, госпитализации:",
+    "14_3": "Реакции на прививки:",
+    "14_4": "Лекарства сейчас или длительно раньше:",
+    "15[]": "Предыдущее лечение и подавление:",
+    "15_описание": "Подавление — подробнее",
+    "16": "Важные события в жизни:",
+    "17[]": "Семейный анамнез (болезни родственников):",
+    "17_комм": "У кого именно / другое:",
+    "18_начало": "Возраст начала менструаций:",
+    "18_цикл": "Цикл:",
+    "18_менс[]": "Менструации:",
+    "18_берем": "Беременности / роды / выкидыши / аборты:",
+    "18_менопауза": "Менопауза / климакс:",
+    "19_либидо": "Либидо:",
+    "19[]": "Мужские проблемы:",
+    "19_комм": "Мужское здоровье — комментарий",
+    "20_работа[]": "Работа:",
+    "20_активность": "Физическая активность:",
+    "20_курение": "Курение:",
+    "20_алкоголь": "Алкоголь:",
+    "20_кофе": "Кофе / энергетики:",
+    "20_питание": "Питание:",
+    "20_сон": "Сколько часов спите обычно:",
+    "20_отдых": "Есть ли время на отдых?",
+    "21": "Что считаете самым важным/необычным в своём состоянии?",
+    "22": "Дополнительные комментарии:"
+};
+
+const SEC = {
+    "1": "ОБЩАЯ ИНФОРМАЦИЯ",
+    "2": "С ЧЕМ ВЫ ПРИШЛИ",
+    "3": "ПОСЛЕ ЧЕГО ЭТО НАЧАЛОСЬ",
+    "4": "ГЛАВНАЯ ЖАЛОБА ПОДРОБНО",
+    "5": "ЧТО УХУДШАЕТ И ОБЛЕГЧАЕТ",
+    "6": "КАКОЙ ВЫ ЧЕЛОВЕК",
+    "7": "СТРАХИ И ТРЕВОГА",
+    "8": "ОБЩИЕ ОСОБЕННОСТИ ОРГАНИЗМА",
+    "9": "СОН",
+    "10": "НЕОБЫЧНЫЕ СИМПТОМЫ",
+    "11": "ДРУГИЕ ЖАЛОБЫ И СИМПТОМЫ",
+    "12": "СТУЛ, МОЧЕИСПУСКАНИЕ, ПОТ",
+    "13": "ЭНЕРГИЯ И СОПРОТИВЛЯЕМОСТЬ",
+    "14": "ЧЕМ БОЛЕЛИ РАНЬШЕ",
+    "15": "ПРЕДЫДУЩЕЕ ЛЕЧЕНИЕ",
+    "16": "ВАЖНЫЕ СОБЫТИЯ В ЖИЗНИ",
+    "17": "СЕМЕЙНЫЙ АНАМНЕЗ",
+    "18": "ДОПОЛНИТЕЛЬНО ДЛЯ ЖЕНЩИН",
+    "19": "ДОПОЛНИТЕЛЬНО ДЛЯ МУЖЧИН",
+    "20": "ОБРАЗ ЖИЗНИ",
+    "21": "САМОЕ ВАЖНОЕ О СЕБЕ",
+    "22": "ДОПОЛНИТЕЛЬНЫЕ КОММЕНТАРИИ"
+};
+
+document.getElementById('anketaForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    var formData = new FormData(form);
+    var answers = {};
+
+    for (var pair of formData.entries()) {
+        var name = pair[0];
+        var value = pair[1];
+        if (!value.trim() || name === '_subject') continue;
+        if (!answers[name]) answers[name] = [];
+        answers[name].push(value);
+    }
+
+    var lines = [];
+    lines.push('АНКЕТА ПАЦИЕНТА');
+    lines.push('========================');
+    lines.push('');
+
+    var lastSec = '';
+    for (var name in answers) {
+        var m = name.match(/^(\d+)/);
+        var secNum = m ? m[1] : '';
+        if (secNum && secNum !== lastSec) {
+            lines.push('');
+            lines.push('--- ' + (SEC[secNum] || '') + ' ---');
+            lines.push('');
+            lastSec = secNum;
+        }
+        var question = Q[name] || name;
+        var answer = answers[name].join(', ');
+        lines.push(question);
+        lines.push('  ' + answer);
+        lines.push('');
+    }
+
+    lines.push('========================');
+    lines.push('КОНЕЦ АНКЕТЫ');
+
+    var resultText = lines.join('\n');
+    window._anketaText = resultText;
+
+    var resultDiv = document.createElement('div');
+    resultDiv.style.cssText = 'max-width:700px;margin:0 auto;padding:20px';
+
+    var header = document.createElement('div');
+    header.style.cssText = 'text-align:center;margin-bottom:30px';
+    header.innerHTML = '<div style="font-size:3rem">&#10003;</div><h1 style="color:#48bb78">Анкета заполнена!</h1><p style="color:#718096">Скопируйте и отправьте удобным способом:</p>';
+    resultDiv.appendChild(header);
+
+    var btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px';
+    var btnCopy = document.createElement('button');
+    btnCopy.textContent = 'Скопировать';
+    btnCopy.style.cssText = 'padding:14px 28px;font-size:1rem;background:#4299e1;color:#fff;border:none;border-radius:8px;cursor:pointer';
+    btnCopy.onclick = copyText;
+    var btnWA = document.createElement('button');
+    btnWA.textContent = 'WhatsApp';
+    btnWA.style.cssText = 'padding:14px 28px;font-size:1rem;background:#25d366;color:#fff;border:none;border-radius:8px;cursor:pointer';
+    btnWA.onclick = shareWhatsApp;
+    btns.appendChild(btnCopy);
+    btns.appendChild(btnWA);
+    resultDiv.appendChild(btns);
+
+    var msg = document.createElement('div');
+    msg.id = 'copyMsg';
+    msg.style.cssText = 'text-align:center;color:#48bb78;font-weight:bold;margin-bottom:20px;display:none';
+    msg.textContent = 'Скопировано! Вставьте в сообщение.';
+    resultDiv.appendChild(msg);
+
+    var pre = document.createElement('pre');
+    pre.style.cssText = 'white-space:pre-wrap;word-wrap:break-word;font-size:0.85rem;background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;max-height:500px;overflow-y:auto';
+    pre.textContent = resultText;
+    resultDiv.appendChild(pre);
+
+    form.innerHTML = '';
+    form.appendChild(resultDiv);
+});
+
+function copyText() {
+    var text = window._anketaText;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+            document.getElementById('copyMsg').style.display = 'block';
+        }).catch(function() {
+            fallbackCopy(text);
+        });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;left:-9999px;top:0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('copyMsg').style.display = 'block';
+}
+
+function shareWhatsApp() {
+    window.open('https://wa.me/?text=' + encodeURIComponent(window._anketaText), '_blank');
+}
+</script>
+
+</body>
+</html>
