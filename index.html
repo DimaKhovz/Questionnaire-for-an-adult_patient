@@ -834,6 +834,13 @@ document.getElementById('anketaForm').addEventListener('submit', function(e) {
     btnCopy.style.cssText = 'padding:16px 32px;font-size:1.05rem;font-weight:700;background:#4299e1;color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background .3s';
     btnCopy.onclick = copyText;
     btns.appendChild(btnCopy);
+
+    var btnShare = document.createElement('button');
+    btnShare.textContent = '📤 Поделиться';
+    btnShare.style.cssText = 'padding:14px 28px;font-size:1rem;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer';
+    btnShare.onclick = shareNative;
+    btns.appendChild(btnShare);
+
     resultDiv.appendChild(btns);
 
     var msg = document.createElement('div');
@@ -886,6 +893,21 @@ function fallbackCopy(text) {
     document.execCommand('copy');
     document.body.removeChild(ta);
     showCopied();
+}
+
+function shareNative() {
+    var text = window._anketaText;
+    if (navigator.share) {
+        navigator.share({
+            title: 'Анкета пациента',
+            text: text
+        }).catch(function(err) {
+            console.log('Share cancelled');
+        });
+    } else {
+        copyText();
+        alert('Функция "Поделиться" недоступна. Текст скопирован — вставьте вручную.');
+    }
 }
 </script>
 
